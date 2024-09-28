@@ -1,0 +1,425 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no"><title>理解单链表 | 我的博客</title><meta name="keywords" content="list"><meta name="author" content="domf"><meta name="copyright" content="domf"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#f7f9fe"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-touch-fullscreen" content="yes"><meta name="apple-mobile-web-app-title" content="理解单链表"><meta name="application-name" content="理解单链表"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="#f7f9fe"><meta property="og:type" content="article"><meta property="og:title" content="理解单链表"><meta property="og:url" content="http://example.com/2024/09/28/LinkList/index.html"><meta property="og:site_name" content="我的博客"><meta property="og:description" content="解读单链表-C语言实现 链表的概念及结构 概念： 链表是一种常见的数据结构，在计算机科学中被广泛使用。它是由一系列节点组成的集合，每个节点包含实际存储的数据信息（称为元素或数据域）以及一个指向下一个节点的引用（称为链接或指针）。链表不像数组那样在内存中连续存储元素，而是通过节点之间的链接来组织数据。"><meta property="og:locale" content="zh-CN"><meta property="og:image" content="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727516259834_image.png"><meta property="article:author" content="domf"><meta property="article:tag"><meta name="twitter:card" content="summary"><meta name="twitter:image" content="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727516259834_image.png"><meta name="description" content="解读单链表-C语言实现 链表的概念及结构 概念： 链表是一种常见的数据结构，在计算机科学中被广泛使用。它是由一系列节点组成的集合，每个节点包含实际存储的数据信息（称为元素或数据域）以及一个指向下一个节点的引用（称为链接或指针）。链表不像数组那样在内存中连续存储元素，而是通过节点之间的链接来组织数据。"><link rel="shortcut icon" href="/favicon.ico"><link rel="canonical" href="http://example.com/2024/09/28/LinkList/"><link rel="preconnect" href="//cdn.cbd.int"/><meta name="google-site-verification" content="xxx"/><meta name="baidu-site-verification" content="code-xxx"/><meta name="msvalidate.01" content="xxx"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  linkPageTop: undefined,
+  peoplecanvas: {"enable":true,"img":"https://upload-bbs.miyoushe.com/upload/2023/09/03/125766904/ee23df8517f3c3e3efc4145658269c06_5714860933110284659.png"},
+  postHeadAiDescription: undefined,
+  diytitle: {"enable":true,"leaveTitle":"快回来看看我~","backTitle":"欢迎再次光临~"},
+  LA51: undefined,
+  greetingBox: undefined,
+  twikooEnvId: '',
+  commentBarrageConfig:undefined,
+  root: '/',
+  preloader: {"source":3},
+  friends_vue_info: undefined,
+  navMusic: true,
+  mainTone: undefined,
+  authorStatus: {"skills":null},
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"简","rightMenuMsgToTraditionalChinese":"转为繁体","rightMenuMsgToSimplifiedChinese":"转为简体"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":800},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    simplehomepage: true,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"copy":true,"copyrightEbable":false,"limitCount":50,"languages":{"author":"作者: domf","link":"链接: ","source":"来源: 我的博客","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。","copySuccess":"复制成功，复制和转载请标注本文地址"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#425AEF","bgDark":"#1f1f1f","position":"top-center"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.min.js',
+      css: 'https://cdn.cbd.int/flickr-justified-gallery@2.1.2/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  shortcutKey: undefined,
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  configTitle: '我的博客',
+  title: '理解单链表',
+  postAI: '',
+  pageFillDescription: '解读单链表-C语言实现, 链表的概念及结构, 链表的分类, 链表的实现, 无头单向非循环链表-C语言实现, 链表的数据结构, 链表创建, 链表头插, 链表尾插, 链表指定位置后插, 链表指定位置前插, 链表尾删, 链表头删, 链表指定位置删除, 链表通过数据查找节点, 链表销毁, 链表遍历打印, 链表测试, 源码获取解读单链表语言实现链表的概念及结构概念链表是一种常见的数据结构在计算机科学中被广泛使用它是由一系列节点组成的集合每个节点包含实际存储的数据信息称为元素或数据域以及一个指向下一个节点的引用称为链接或指针链表不像数组那样在内存中连续存储元素而是通过节点之间的链接来组织数据首先来梳理链表的一些基本概念节点链表中的一个元素通常包含数据域和链接域数据域用于存放实际的数据值而链接域则存储指向列表中下一个节点的引用头结点链表的第一个节点对于空链表来说头结点为或者说没有头结点尾结点链表的最后一个节点其链接域通常为表示链表的结束单向链表最简单的链表类型其中每个节点只有一个指向其后继节点的链接双向链表除了有一个指向前驱节点的额外链接外其余与单向链表相同这使得遍历可以从前向后也可以从后向前进行循环链表在这种类型的链表中最后一个节点指向的是第一个节点而不是这样就形成了一个闭环遍历时需要特别注意以避免陷入无限循环链表的主要优点包括插入和删除操作简单快速因为只需要改变相关的链接即可但是查找某个特定元素可能需要遍历整个链表因此效率较低此外链表不支持随机访问即不能直接通过索引访问链表中的元素只能从头节点开始逐个遍历在中就的用到了大量的链表来实现任务控制块管理以及消息队列等都是基于链表实现的通过使用链表能够有效地管理内部资源并提供高效的调度和其他系统服务链表的动态特性和灵活性非常适合实时操作系统中资源管理的需求虽然实时操作系统不需要我们来手写但是其最基本的数据结构我们有必要知道其所以然链表描述起来比较抽象所以直接看图结构图中都是结构体称之为结点与顺序表不同的是链表中的每个结点不是只单纯的存一个数据而是一个结构体结构体成员包括一个所存的数据和下一个结点的地址另外顺序表中的地址是连续的而链表中结点的地址是随机分配的运行图中的指针中存放的是第一个结点的地址那么根据指着地址我们就可以找到这个结构体又因为这个结构体中存放了下一个结构体的地址所以又可以找到第二个结构体循环往复就可以找到所有的结点直到存放空地址的结构体特点从图中可以看出链式结构在逻辑上是连续的但在物理上不一定连续现实中的结点一般都是从堆上申请出来的从堆上申请的空间是按照一定的策略来分配的两次申请的空间可能连续也可能不连续链表的分类单向或者双向带头或不带头循环或非循环最常用的两种结构链表的实现无头单向非循环链表语言实现目标实现无头单向非循环链表的增删改查增节点创建头插尾插指定位置前插指定位置后插删头删尾删指定位置删除改指定节点改查查找指定数据节点以及节点数据的遍历输出方便观察结果进行对比调试一个无头单向非循环链表的连接如图所示链表的数据结构数据类型定义链表节点数据结构数据下一个节点的指针链表创建链表的每一个结点都是动态开辟出来的每一个结点的大小为该结构体的大小开辟成功后要将结点存放的数据置为需要存放的值结点存放的地址置为创建节点节点数据创建节点的指针申请内存空间如果申请失败直接提示错误退出程序节点的数据下一个数据先默认为空等待后续处理返回新节点的指针链表头插头插相对来说比较简单直接将申请结点的置为头结点然后将头结点改成申请结点即可注这里不需要考虑链表是否为空传入的指针指向空地址便是创建头节点链表头插指向头节点的指针节点数据将申请结点中保存的地址置为头结点的地址再将头结点向右移动更新头节点这里使用指向指针的指针才可以改变传入的原本的头节点指针链表尾插因为不能根据下标访问元素即不能随机访问当然我们也不知到最后一个结点的位置所在尾插时需要遍历找到最后一个结点的位置同时这里分为两种情况如果链表为空则直接插入即可如果链表不为空则需要找到尾结点再插入链表尾插指向头节点的指针节点数据申请结点链表为空直接将头结点置为需要插入的结点得到头节点找尾结点将尾结点中存放的地址置为插入结点的地址即可链表指定位置后插这里在指定位置后面插入而不在前面插入是因为在前面插入时需要找到插入位置前面的地址而这样又会遍历一次链表时间复杂度为而在后面插入则直接插入即可时间复杂度为链表指定位置后面插入指向头节点的指针指定节点节点数据申请结点找到插入位置的下一个结点的地址插入结点连接到后面的链表链表指定位置前插指定位置前插需要对链表进行遍历细分为两种情况指定位置为头节点指定位置非头节点链表在指定位置之前去插入一个节点指向头节点的指针指定节点节点数据找到的前一个位置链表尾删同尾插一样我们也不知道尾结点的地址所以需要先找到尾结点同时这里需要考虑三种情况链表为空链表中只有一个结点链表中有一个以上结点链表尾删指向头节点的指针链表为空不能删除结点且该指针不能为空链表中只有一个结点直接释放该结点然后将结点置为得到尾节点的数据链表中有一个以上结点先找尾结点释放掉尾结点置为但这样还不够因为倒数第二个结点还存有尾结点的地址所以需要将他置为用来标记倒数第二个结点标记尾结点得到尾节点的数据将倒数第二个结点中存的地址置为释放尾结点链表头删头删也比较简单相当于将头指针移动到第二个结点上这里分为两种情况链表为空链表不为空链表头删节点数据链表为空不能删除记录第二个结点的地址释放头结点将指针指向第二个结点链表指定位置删除这里在指定位置删除而不在前面删除或者后面删除是因为在头删和尾删时会遇到一些麻烦链表指定位置删除指向头节点的指针指定节点节点数据被删除的数据如果头结点是要删除的结点找到要删除的结点将需要删除的结点的上一个结点的指向需要删除的下一个结点链表通过数据查找节点根据提供的数据在链表中遍历每个结点若某个结点中的数据与之相同则返回该结点的地址若没有找到则返回链表查找指向头节点的指针节点数据链表销毁保存下一个结点的地址释放当前结点再将指针指向下一个结点释放下一个结点直到链表为空销毁链表指向头节点的指针链表遍历打印保存下一个结点的地址打印当前结点数据再将指针指向下一个结点直到链表为空输出链表打印指向头节点的指针一般不直接移动头指针而是创建一个指针变量来移动当指针为空时结束循环打印该结点的数据将指针指向下一个结点链表测试测试所有的函数观测输出结果是否和预期一致创建头节点头插数据尾插数据头插数据查找数据为的节点在数据为的节点后插入在数据为的节点前插入查找数据为的节点尾插数据头插数据尾插数据头插数据尾删头删删除指定节点遍历打印节点从输出结果观测到输出结果和预期表现一致表面链表实现没有问题源码获取',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2024-09-28 00:00:00',
+  postMainColor: '',
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#18171d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f9fe')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          const now = new Date()
+          const hour = now.getHours()
+          const isNight = hour <= 8 || hour >= 22
+          if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+          else if (t === 'light') activateLightMode()
+          else activateDarkMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body data-type="anzhiyu"><div id="web_bg"></div><div id="an_music_bg"></div><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><img class="loading-img nolazyload" alt="加载头像" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727072613577_avatar.jpg"/><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.getElementById('loading-box').classList.add("loaded");
+  },
+  initLoading: () => {
+    document.getElementById('loading-box').classList.remove("loaded")
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+setTimeout(function(){preloader.endLoading();},10000)
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.10/progress_bar/progress_bar.css"/><script async="async" src="https://cdn.cbd.int/pace-js@1.2.4/pace.min.js" data-pace-options="{ &quot;restartOnRequestAfter&quot;:false,&quot;eventLag&quot;:false}"></script><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><div id="nav-group"><span id="blog_name"><div class="back-home-button"><i class="anzhiyufont anzhiyu-icon-grip-vertical"></i><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://freedom413.github.io" title="我的博客"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147838708_博客.png" alt="我的博客"/><span class="back-menu-item-text">我的博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">电影</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://ddys.mov/" title="低端影视"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147415419_列表导航_影视.png" alt="低端影视"/><span class="back-menu-item-text">低端影视</span></a><a class="back-menu-item" target="_blank" rel="noopener" href="https://www.novipnoad.net/" title="NO影视"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147417333_视频，影视.png" alt="NO影视"/><span class="back-menu-item-text">NO影视</span></a></div></div></div></div><a id="site-name" href="/" accesskey="h"><div class="title">我的博客</div><i class="anzhiyufont anzhiyu-icon-house-chimney"></i></a><div id="he-plugin-simple"></div><script>var WIDGET = {
+  "CONFIG": {
+    "modules": "0124",
+    "background": "2",
+    "tmpColor": "FFFFFF",
+    "tmpSize": "16",
+    "cityColor": "FFFFFF",
+    "citySize": "16",
+    "aqiColor": "E8D87B",
+    "aqiSize": "16",
+    "weatherIconSize": "24",
+    "alertIconSize": "18",
+    "padding": "10px 10px 10px 10px",
+    "shadow": "0",
+    "language": "auto",
+    "borderRadius": "20",
+    "fixed": "true",
+    "vertical": "top",
+    "horizontal": "left",
+    "left": "20",
+    "top": "7.1",
+    "key": "df245676fb434a0691ead1c63341cd94"
+  }
+}
+</script><link rel="stylesheet" href="https://widget.qweather.net/simple/static/css/he-simple.css?v=1.4.0"/><script src="https://widget.qweather.net/simple/static/js/he-simple.js?v=1.4.0"></script></span><div class="mask-name-container"><div id="name-container"><a id="page-name" href="javascript:anzhiyu.scrollToDest(0, 500)">PAGE_NAME</a></div></div><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li></ul></div></div></div><div id="nav-right"><div class="nav-button" id="randomPost_button"><a class="site-page" onclick="toRandomPost()" title="随机前往一个文章" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-dice"></i></a></div><input id="center-console" type="checkbox"/><label class="widget" for="center-console" title="中控台" onclick="anzhiyu.switchConsole();"><i class="left"></i><i class="widget center"></i><i class="widget right"></i></label><div id="console"><div class="console-card-group-reward"><ul class="reward-all console-card"><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png" target="_blank"><img class="post-qr-code-img" alt="微信" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-weichat.png"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png" target="_blank"><img class="post-qr-code-img" alt="支付宝" src="https://npm.elemecdn.com/anzhiyu-blog@1.1.6/img/post/common/qrcode-alipay.png"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div><div class="console-card-group"><div class="console-card-group-left"><div class="console-card" id="card-newest-comments"><div class="card-content"><div class="author-content-item-tips">互动</div><span class="author-content-item-title"> 最新评论</span></div><div class="aside-list"><span>正在加载中...</span></div></div></div><div class="console-card-group-right"><div class="console-card tags"><div class="card-content"><div class="author-content-item-tips">兴趣点</div><span class="author-content-item-title">寻找你感兴趣的领域</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DIY/" style="font-size: 1.05rem;">DIY<sup>1</sup></a><a href="/tags/FIFO/" style="font-size: 1.05rem;">FIFO<sup>1</sup></a><a href="/tags/STM32/" style="font-size: 1.05rem;">STM32<sup>1</sup></a><a href="/tags/esp8266/" style="font-size: 1.05rem;">esp8266<sup>1</sup></a><a href="/tags/freertos/" style="font-size: 1.05rem;">freertos<sup>4</sup></a><a href="/tags/list/" style="font-size: 1.05rem;">list<sup>1</sup></a><a href="/tags/modbus/" style="font-size: 1.05rem;">modbus<sup>1</sup></a><a href="/tags/stm32/" style="font-size: 1.05rem;">stm32<sup>4</sup></a><a href="/tags/wifi%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 1.05rem;">wifi服务器<sup>1</sup></a><a href="/tags/%E5%8D%95%E9%93%BE%E8%A1%A8/" style="font-size: 1.05rem;">单链表<sup>1</sup></a><a href="/tags/%E5%B7%A5%E4%B8%9A%E6%80%BB%E7%BA%BF/" style="font-size: 1.05rem;">工业总线<sup>2</sup></a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 1.05rem;">数据结构<sup>2</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" style="font-size: 1.05rem;">机器人<sup>1</sup></a><a href="/tags/%E7%8E%AF%E5%BD%A2%E9%98%9F%E5%88%97/" style="font-size: 1.05rem;">环形队列<sup>1</sup></a></div></div><hr/></div></div><div class="console-card history"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-box-archiv"></i><span>文章</span></div><div class="card-archives"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-archive"></i><span>归档</span></div><ul class="card-archive-list"><li class="card-archive-list-item"><a class="card-archive-list-link" href="/archives/2024/09/"><span class="card-archive-list-date">九月 2024</span><div class="card-archive-list-count-group"><span class="card-archive-list-count">9</span><span>篇</span></div></a></li></ul></div><hr/></div></div></div><div class="button-group"><div class="console-btn-item"><a class="darkmode_switchbutton" title="显示模式切换" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-moon"></i></a></div><div class="console-btn-item" id="consoleHideAside" onclick="anzhiyu.hideAsideBtn()" title="边栏显示控制"><a class="asideSwitch"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></a></div><div class="console-btn-item" id="consoleMusic" onclick="anzhiyu.musicToggle()" title="音乐开关"><a class="music-switch"><i class="anzhiyufont anzhiyu-icon-music"></i></a></div></div><div class="console-mask" onclick="anzhiyu.hideConsole()" href="javascript:void(0);"></div></div><div class="nav-button" id="nav-totop"><a class="totopbtn" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i><span id="percent" onclick="anzhiyu.scrollToDest(0,500)">0</span></a></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" title="切换"><i class="anzhiyufont anzhiyu-icon-bars"></i></a></div></div></div></nav></header><main id="blog-container"><div class="layout" id="content-inner"><div id="post"><div id="post-info"><div id="post-firstinfo"><div class="meta-firstline"><a class="post-meta-original">原创</a><span class="post-meta-categories"><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-inbox post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url">数据结构</a></span><span class="article-meta tags"><a class="article-meta__tags" href="/tags/list/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>list</span></a><a class="article-meta__tags" href="/tags/%E5%8D%95%E9%93%BE%E8%A1%A8/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>单链表</span></a><a class="article-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" tabindex="-1" itemprop="url"> <span> <i class="anzhiyufont anzhiyu-icon-hashtag"></i>数据结构</span></a></span></div></div><h1 class="post-title" itemprop="name headline">理解单链表</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="anzhiyufont anzhiyu-icon-calendar-days post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" itemprop="dateCreated datePublished" datetime="2024-09-27T16:00:00.000Z" title="发表于 2024-09-28 00:00:00">2024-09-28</time><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-history post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" itemprop="dateCreated datePublished" datetime="2024-09-27T16:00:00.000Z" title="更新于 2024-09-28 00:00:00">2024-09-28</time></span></div><div class="meta-secondline"><span class="post-meta-separator"></span><span class="post-meta-wordcount"><i class="anzhiyufont anzhiyu-icon-file-word post-meta-icon" title="文章字数"></i><span class="post-meta-label" title="文章字数">字数总计:</span><span class="word-count" title="文章字数">3.3k</span><span class="post-meta-separator"></span><i class="anzhiyufont anzhiyu-icon-clock post-meta-icon" title="阅读时长"></i><span class="post-meta-label" title="阅读时长">阅读时长:</span><span>11分钟</span></span><span class="post-meta-separator">       </span><span class="post-meta-position" title="作者IP属地为四川"><i class="anzhiyufont anzhiyu-icon-location-dot"></i>四川</span></div></div></div><article class="post-content" id="article-container" itemscope itemtype="http://example.com/2024/09/28/LinkList/"><header><a class="post-meta-categories" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" itemprop="url">数据结构</a><a href="/tags/list/" tabindex="-1" itemprop="url">list</a><a href="/tags/%E5%8D%95%E9%93%BE%E8%A1%A8/" tabindex="-1" itemprop="url">单链表</a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" tabindex="-1" itemprop="url">数据结构</a><h1 id="CrawlerTitle" itemprop="name headline">理解单链表</h1><span itemprop="author" itemscope itemtype="http://schema.org/Person">domf</span><time itemprop="dateCreated datePublished" datetime="2024-09-27T16:00:00.000Z" title="发表于 2024-09-28 00:00:00">2024-09-28</time><time itemprop="dateCreated datePublished" datetime="2024-09-27T16:00:00.000Z" title="更新于 2024-09-28 00:00:00">2024-09-28</time></header><h1>解读单链表-C语言实现</h1>
+<h2 id="链表的概念及结构">链表的概念及结构</h2>
+<p><strong>概念：</strong> 链表是一种常见的数据结构，在计算机科学中被广泛使用。它是由一系列节点组成的集合，每个节点包含实际存储的数据信息（称为元素或数据域）以及一个指向下一个节点的引用（称为链接或指针）。链表不像数组那样在内存中连续存储元素，而是通过节点之间的链接来组织数据。<br>
+首先来梳理链表的一些基本概念：</p>
+<ul>
+<li>
+<p><strong>节点（Node）</strong>：链表中的一个元素，通常包含数据域和链接域。数据域用于存放实际的数据值，而链接域则存储指向列表中下一个节点的引用。</p>
+</li>
+<li>
+<p><strong>头结点（Head）</strong>：链表的第一个节点。对于空链表来说，头结点为 <code>null</code> 或者说没有头结点。</p>
+</li>
+<li>
+<p><strong>尾结点（Tail）</strong>：链表的最后一个节点，其链接域通常为 <code>null</code>，表示链表的结束。</p>
+</li>
+<li>
+<p><strong>单向链表（Singly Linked List）</strong>：最简单的链表类型，其中每个节点只有一个指向其后继节点的链接。</p>
+</li>
+<li>
+<p><strong>双向链表（Doubly Linked List）</strong>：除了有一个指向前驱节点的额外链接外，其余与单向链表相同。这使得遍历可以从前向后也可以从后向前进行。</p>
+</li>
+<li>
+<p><strong>循环链表（Circular Linked List）</strong>：在这种类型的链表中，最后一个节点指向的是第一个节点，而不是 <code>null</code>。这样就形成了一个闭环，遍历时需要特别注意以避免陷入无限循环。</p>
+</li>
+</ul>
+<p>链表的主要优点包括插入和删除操作简单快速，因为只需要改变相关的链接即可。但是查找某个特定元素可能需要遍历整个链表，因此效率较低。此外，链表不支持随机访问，即不能直接通过索引访问链表中的元素，只能从头节点开始逐个遍历。</p>
+<p>在FreeRtos中就的用到了大量的链表来实现任务控制块管理，以及消息队列等都是基于链表实现的。通过使用链表，FreeRTOS能够有效地管理内部资源，并提供高效的调度和其他系统服务。链表的动态特性和灵活性非常适合实时操作系统中资源管理的需求。虽然实时操作系统不需要我们来手写，但是其最基本的数据结构，我们有必要知道其所以然。链表描述起来比较抽象，所以直接看图。<br>
+<strong>结构</strong><br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513495685_1.png" alt="1.png"><br>
+图中：2.3.4.5都是结构体，称之为结点，与顺序表不同的是，链表中的每个结点不是只单纯的存一个数据。而是一个结构体，结构体成员包括一个所存的数据，和下一个结点的地址。另外，顺序表中的地址是连续的，而链表中结点的地址是随机分配的。<br>
+<strong>运行</strong><br>
+图中的phead指针中存放的是第一个结点的地址，那么根据指着地址我们就可以找到这个结构体，又因为这个结构体中存放了下一个结构体的地址，所以又可以找到第二个结构体，循环往复就可以找到所有的结点，直到存放空地址的结构体。<br>
+<strong>特点</strong></p>
+<ol>
+<li>从图中可以看出，链式结构在逻辑上是连续的，但在物理上不一定连续。</li>
+<li>现实中的结点一般都是从堆上申请出来的。</li>
+<li>从堆上申请的空间，是按照一定的策略来分配的，两次申请的空间可能连续，也可能不连续。</li>
+</ol>
+<h2 id="链表的分类">链表的分类</h2>
+<ol>
+<li>
+<p><strong>单向或者双向</strong><br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513489311_2.png" alt="2.png"></p>
+</li>
+<li>
+<p><strong>带头或不带头</strong><br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513491829_3.png" alt="3.png"></p>
+</li>
+<li>
+<p><strong>循环或非循环</strong><br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513489015_4.png" alt="4.png"></p>
+</li>
+<li>
+<p><strong>最常用的两种结构</strong><br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513489890_5.png" alt="5.png"></p>
+</li>
+</ol>
+<h1>链表的实现</h1>
+<h2 id="无头单向非循环链表-C语言实现">无头单向非循环链表-C语言实现</h2>
+<p><strong>目标</strong><br>
+实现<code>无头单向非循环链表</code>的增、删、改、查。</p>
+<ol>
+<li><strong>增</strong> <code>节点创建</code>、<code>头插</code>、<code>尾插</code>、<code>指定位置前插</code>、<code>指定位置后插</code>。</li>
+<li><strong>删</strong> <code>头删</code>、<code>尾删</code>、<code>指定位置删除</code>。</li>
+<li><strong>改</strong> <code>指定节点改</code>。</li>
+<li><strong>查</strong> <code>查找指定数据节点</code></li>
+</ol>
+<p>以及节点数据的遍历输出，方便观察结果，进行对比调试。</p>
+<p>一个无头单向非循环链表的连接如图所示。<br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727513486298_6.png" alt="6.png"></p>
+<h2 id="链表的数据结构">链表的数据结构</h2>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 数据类型定义*/</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="type">uint8_t</span> nodedata;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表节点数据结构</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> <span class="title">node</span></span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line">    nodedata data; <span class="comment">//数据</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">node</span> *<span class="title">next</span>;</span> <span class="comment">//下一个节点的指针</span></span><br><span class="line">&#125; node;</span><br></pre></td></tr></table></figure>
+<h2 id="链表创建">链表创建</h2>
+<p>链表的每一个结点都是动态开辟(malloc)出来的，每一个结点的大小为该结构体的大小。开辟成功后，要将结点存放的数据置为需要存放的值，结点存放的地址置为NULL。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief linklist创建节点</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> * @return node* 创建节点的指针</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">node *<span class="title function_">lLNodeCraet</span><span class="params">(nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">    node *newnode = (node *)<span class="built_in">malloc</span>(<span class="keyword">sizeof</span>(node)); <span class="comment">//申请内存空间</span></span><br><span class="line">    <span class="keyword">if</span> (newnode == <span class="literal">NULL</span>) <span class="comment">//如果申请失败 直接提示错误退出程序</span></span><br><span class="line">    &#123;</span><br><span class="line">        perror(<span class="string">&quot;malloc:error&quot;</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">-1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    newnode-&gt;data = d; <span class="comment">//节点的数据 </span></span><br><span class="line">    newnode-&gt;next = <span class="literal">NULL</span>; <span class="comment">//下一个数据先默认为空，等待后续处理</span></span><br><span class="line">    <span class="keyword">return</span> newnode;  <span class="comment">//返回新节点的指针</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="链表头插">链表头插</h2>
+<p>头插相对来说比较简单，直接将申请结点的next置为头结点，然后将头结点改成申请结点即可<br>
+注：这里不需要考虑链表是否为空，传入的指针指向空地址便是创建头节点。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表头插</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLPushFront</span><span class="params">(node **pphead, nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(pphead);</span><br><span class="line">    node *newnode = lLNodeCraet(d);</span><br><span class="line">    newnode-&gt;next = *pphead; <span class="comment">// 将申请结点中保存的地址置为头结点的地址</span></span><br><span class="line">    *pphead = newnode;       <span class="comment">// 再将头结点向右移动 更新头节点 这里使用指向指针的指针 才可以改变传入的原本的头节点指针</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表尾插">链表尾插</h2>
+<p>因为不能根据下标访问元素(即不能随机访问)，当然我们也不知到最后一个结点的位置，所在尾插时，需要遍历找到最后一个结点的位置。</p>
+<p>同时这里分为两种情况：</p>
+<ol>
+<li>如果链表为空，则直接插入即可。</li>
+<li>如果链表不为空，则需要找到尾结点再插入。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表尾插</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLPushBack</span><span class="params">(node **pphead, nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(pphead);</span><br><span class="line">    node *newnode = lLNodeCraet(d); <span class="comment">// 申请结点</span></span><br><span class="line">    <span class="keyword">if</span> (*pphead == <span class="literal">NULL</span>)            <span class="comment">// 1.链表为空</span></span><br><span class="line">    &#123;</span><br><span class="line">        *pphead = newnode; <span class="comment">// 直接将头结点置为需要插入的结点</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        node *cur = *pphead; <span class="comment">// 得到头节点</span></span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next)    <span class="comment">// 找尾结点</span></span><br><span class="line">        &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        cur-&gt;next = newnode; <span class="comment">// 将尾结点中存放的地址置为插入结点的地址即可</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表指定位置后插">链表指定位置后插</h2>
+<p>这里在指定位置后面插入而不在前面插入是因为，在前面插入时需要找到插入位置前面的地址，而这样又会遍历一次链表，时间复杂度为O(N)，而在后面插入则直接插入即可，时间复杂度为O(1)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表指定位置后面插入</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param pos  指定节点</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLInsertPB</span><span class="params">(node** pphead, node* pos, nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead &amp;&amp; pos);</span><br><span class="line">	node* newnode = lLNodeCraet(d);<span class="comment">//申请结点</span></span><br><span class="line">	node* next = pos-&gt;next;<span class="comment">//找到插入位置的下一个结点的地址</span></span><br><span class="line">	pos-&gt;next = newnode;<span class="comment">//插入结点</span></span><br><span class="line">	newnode-&gt;next = next;<span class="comment">//连接到后面的链表</span></span><br><span class="line"> </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表指定位置前插">链表指定位置前插</h2>
+<p>指定位置前插需要对链表进行遍历，细分为两种情况：</p>
+<ol>
+<li>指定位置为头节点</li>
+<li>指定位置非头节点</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表在指定位置之前去插入一个节点</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param pos  指定节点</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLInsertPF</span><span class="params">(node** pphead, node* pos, nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">	assert(pphead);</span><br><span class="line">	assert(pos);</span><br><span class="line"> </span><br><span class="line">	node* newnode = lLNodeCraet(d);</span><br><span class="line">	<span class="keyword">if</span> (*pphead == pos)</span><br><span class="line">	&#123;</span><br><span class="line">		newnode-&gt;next = *pphead;</span><br><span class="line">		*pphead = newnode;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="comment">// 找到pos的前一个位置</span></span><br><span class="line">		node* posPrev = *pphead;</span><br><span class="line">		<span class="keyword">while</span> (posPrev-&gt;next != pos)</span><br><span class="line">		&#123;</span><br><span class="line">			posPrev = posPrev-&gt;next;</span><br><span class="line">		&#125;</span><br><span class="line"> </span><br><span class="line">		posPrev-&gt;next = newnode;</span><br><span class="line">		newnode-&gt;next = pos;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表尾删">链表尾删</h2>
+<p>同尾插一样，我们也不知道尾结点的地址，所以需要先找到尾结点。同时这里需要考虑三种情况：</p>
+<ol>
+<li>链表为空。</li>
+<li>链表中只有一个结点。</li>
+<li>链表中有一个以上结点。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表尾删</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">nodedata <span class="title function_">lLPopBack</span><span class="params">(node **pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 1.链表为空不能删除结点,且该指针不能为空</span></span><br><span class="line">    assert(*pphead &amp;&amp; pphead);</span><br><span class="line"></span><br><span class="line">    nodedata t;</span><br><span class="line">    <span class="comment">// 2.链表中只有一个结点，直接释放该结点，然后将结点置为NULL</span></span><br><span class="line">    <span class="keyword">if</span> ((*pphead)-&gt;next == <span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        t = (*pphead)-&gt;data; <span class="comment">// 得到尾节点的数据</span></span><br><span class="line">        <span class="built_in">free</span>(*pphead);</span><br><span class="line">        *pphead = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3.链表中有一个以上结点，先找尾结点，释放掉尾结点,置为NULL</span></span><br><span class="line">    <span class="comment">//   但这样还不够，因为倒数第二个结点还存有尾结点的地址，所以需要将他置为NULL</span></span><br><span class="line">    node *cur = *pphead;          <span class="comment">// 用来标记倒数第二个结点</span></span><br><span class="line">    node *next = (*pphead)-&gt;next; <span class="comment">// 标记尾结点</span></span><br><span class="line">    <span class="keyword">while</span> (next-&gt;next)</span><br><span class="line">    &#123;</span><br><span class="line">        next = next-&gt;next;</span><br><span class="line">        cur = cur-&gt;next;</span><br><span class="line">    &#125;</span><br><span class="line">    t = next-&gt;data;   <span class="comment">// 得到尾节点的数据</span></span><br><span class="line">    cur-&gt;next = <span class="literal">NULL</span>; <span class="comment">// 将倒数第二个结点中存的地址置为NULL</span></span><br><span class="line">    <span class="built_in">free</span>(next);       <span class="comment">// 释放尾结点</span></span><br><span class="line">    next = <span class="literal">NULL</span>;</span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表头删">链表头删</h2>
+<p>头删也比较简单，相当于将头指针移动到第二个结点上。这里分为两种情况：</p>
+<ol>
+<li>链表为空。</li>
+<li>链表不为空。</li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表头删</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">nodedata <span class="title function_">lLPopFront</span><span class="params">(node **pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(*pphead &amp;&amp; pphead); <span class="comment">// 链表为空不能删除</span></span><br><span class="line"></span><br><span class="line">    nodedata t;</span><br><span class="line">    t = (*pphead)-&gt;data;</span><br><span class="line">    node *next = (*pphead)-&gt;next; <span class="comment">// 记录第二个结点的地址</span></span><br><span class="line">    <span class="built_in">free</span>(*pphead);                <span class="comment">// 释放头结点</span></span><br><span class="line">    *pphead = next;               <span class="comment">// 将指针指向第二个结点</span></span><br><span class="line">    <span class="keyword">return</span> t;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表指定位置删除">链表指定位置删除</h2>
+<p>这里在指定位置删除，而不在前面删除或者后面删除，是因为在头删和尾删时会遇到一些麻烦。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表指定位置删除</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param pos  指定节点</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> * @retval nodedata 被删除的数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">nodedata <span class="title function_">lLErase</span><span class="params">(node **pphead, node *pos)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(pphead &amp;&amp; pos);</span><br><span class="line">    nodedata t;</span><br><span class="line">    <span class="keyword">if</span> (*pphead == pos) <span class="comment">// 如果头结点是要删除的结点</span></span><br><span class="line">    &#123;</span><br><span class="line">        t = (*pphead)-&gt;data;</span><br><span class="line">        *pphead = (*pphead)-&gt;next;</span><br><span class="line">        <span class="built_in">free</span>(pos);</span><br><span class="line">        pos = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">    &#123;</span><br><span class="line">        node *cur = *pphead;</span><br><span class="line">        <span class="keyword">while</span> (cur-&gt;next != pos) <span class="comment">// 找到要删除的结点</span></span><br><span class="line">        &#123;</span><br><span class="line">            cur = cur-&gt;next;</span><br><span class="line">        &#125;</span><br><span class="line">        t = cur-&gt;data;</span><br><span class="line">        cur-&gt;next = pos-&gt;next; <span class="comment">// 将需要删除的结点的上一个结点的next指向需要删除的下一个结点</span></span><br><span class="line">        <span class="built_in">free</span>(pos);</span><br><span class="line">        pos = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">return</span> t;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表通过数据查找节点">链表通过数据查找节点</h2>
+<p>根据提供的数据，在链表中遍历每个结点，若某个结点中的数据与之相同则返回该结点的地址；若没有找到则返回NULL。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表查找</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> * @param d 节点数据</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">node* <span class="title function_">lLFind</span><span class="params">(node* phead, nodedata d)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">while</span> (phead)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (phead-&gt;data == d)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">return</span> phead;</span><br><span class="line">		&#125;</span><br><span class="line">		phead = phead-&gt;next;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="链表销毁">链表销毁</h2>
+<p>保存下一个结点的地址，释放当前结点，再将指针指向下一个结点，释放下一个结点，直到链表为空。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 销毁链表</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLDestory</span><span class="params">(node** pphead)</span></span><br><span class="line">&#123;</span><br><span class="line">    assert(pphead);</span><br><span class="line">	<span class="keyword">while</span> (*pphead)</span><br><span class="line">	&#123;</span><br><span class="line">		node* next = (*pphead)-&gt;next;</span><br><span class="line">		<span class="built_in">free</span>(*pphead);</span><br><span class="line">		*pphead = next;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="链表遍历打印">链表遍历打印</h2>
+<p>保存下一个结点的地址，打印当前结点数据，再将指针指向下一个结点，直到链表为空，输出NULL。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * @brief 链表打印</span></span><br><span class="line"><span class="comment"> * @param pphead  指向头节点的指针</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="type">void</span> <span class="title function_">lLPrint</span><span class="params">(node* phead)</span></span><br><span class="line">&#123;</span><br><span class="line">	node* cur = phead;<span class="comment">//一般不直接移动头指针，而是创建一个指针变量来移动</span></span><br><span class="line">	<span class="keyword">while</span> (cur)<span class="comment">//当指针为空时结束循环</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">&quot;%d-&gt;&quot;</span>, cur-&gt;data);<span class="comment">//打印该结点的数据</span></span><br><span class="line">		cur = cur-&gt;next;<span class="comment">//将指针指向下一个结点</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;NULL\n&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1>链表测试</h1>
+<p>测试所有的函数 观测输出结果是否和预期一致</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    node *Head = <span class="literal">NULL</span>;</span><br><span class="line"></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">0</span>); <span class="comment">// 创建头节点</span></span><br><span class="line"></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">1</span>); <span class="comment">// 头插数据1</span></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">2</span>);</span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">3</span>);</span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">4</span>);</span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">5</span>);</span><br><span class="line"></span><br><span class="line">    lLPushBack(&amp;Head, <span class="number">99</span>);  <span class="comment">// 尾插数据99</span></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">66</span>); <span class="comment">// 头插数据66</span></span><br><span class="line"></span><br><span class="line">    node *index1 = lLFind(Head, <span class="number">4</span>); <span class="comment">// 查找数据为4的节点</span></span><br><span class="line"></span><br><span class="line">    lLInsertPB(&amp;Head, index1, <span class="number">12</span>); <span class="comment">// 在数据为4的节点后插入12</span></span><br><span class="line">    lLInsertPF(&amp;Head, index1, <span class="number">13</span>); <span class="comment">// 在数据为4的节点前插入13</span></span><br><span class="line"></span><br><span class="line">    node *index2 = lLFind(Head, <span class="number">2</span>); <span class="comment">// 查找数据为2的节点</span></span><br><span class="line"></span><br><span class="line">    lLPushBack(&amp;Head, <span class="number">91</span>);  <span class="comment">// 尾插数据91</span></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">61</span>); <span class="comment">// 头插数据61</span></span><br><span class="line">    lLPushBack(&amp;Head, <span class="number">92</span>);  <span class="comment">// 尾插数据92</span></span><br><span class="line">    lLPushFront(&amp;Head, <span class="number">62</span>); <span class="comment">// 头插数据62</span></span><br><span class="line">    lLPopBack(&amp;Head);       <span class="comment">// 尾删</span></span><br><span class="line">    lLPopFront(&amp;Head);      <span class="comment">// 头删</span></span><br><span class="line"></span><br><span class="line">    lLErase(&amp;Head, index2); <span class="comment">// 删除指定节点</span></span><br><span class="line"></span><br><span class="line">    lLPrint(Head); <span class="comment">// 遍历打印节点</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从输出结果观测到 输出结果和预期表现一致，表面链表实现没有问题<br>
+<img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727516036436_image.png" alt="image.png"></p>
+<h1>源码获取</h1>
+<p><code>github</code> <a target="_blank" rel="noopener" href="https://github.com/freedom413/linklistDemo.git">https://github.com/freedom413/linklistDemo.git</a></p>
+</article><div class="post-copyright"><div class="copyright-cc-box"><i class="anzhiyufont anzhiyu-icon-copyright"></i></div><div class="post-copyright__author_box"><a class="post-copyright__author_img" href="/" title="头像"><img class="post-copyright__author_img_back" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727072613577_avatar.jpg" title="头像" alt="头像"><img class="post-copyright__author_img_front" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727072613577_avatar.jpg" title="头像" alt="头像"></a><div class="post-copyright__author_name">domf</div><div class="post-copyright__author_desc">记录兴趣点</div></div><div class="post-copyright__post__info"><a class="post-copyright__original" title="该文章为原创文章，注意版权协议" href="http://example.com/2024/09/28/LinkList/">原创</a><a class="post-copyright-title"><span onclick="rm.copyPageUrl('http://example.com/2024/09/28/LinkList/')">理解单链表</span></a></div><div class="post-copyright__notice"><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://example.com" target="_blank">我的博客</a>！</span></div></div><div class="post-tools-right"><div class="tag_share"><div class="post-meta__box"><div class="post-meta__box__tag-list"><a class="post-meta__box__tags" href="/tags/list/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>list<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E5%8D%95%E9%93%BE%E8%A1%A8/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>单链表<span class="tagsPageCount">1</span></a><a class="post-meta__box__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/"><span class="tags-punctuation"> <i class="anzhiyufont anzhiyu-icon-tag"></i></span>数据结构<span class="tagsPageCount">2</span></a></div></div></div><div class="post_share"><div class="social-share" data-image="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727516259834_image.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"/><script src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer="defer"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/2024/09/25/freertos-4/"><img class="prev-cover" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727084678282_image.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">freertos信号量</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="anzhiyufont anzhiyu-icon-thumbs-up fa-fw" style="font-size: 1.5rem; margin-right: 4px"></i><span>喜欢这篇文章的人也看了</span></div><div class="relatedPosts-list"><div><a href="/2024/09/01/ringfifo-0/" title="理解环形队列"><img class="cover" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1726410218913_环形.png" alt="cover"><div class="content is-center"><div class="date"><i class="anzhiyufont anzhiyu-icon-calendar-days fa-fw"></i> 2024-09-01</div><div class="title">理解环形队列</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-content"><div class="author-info__sayhi" id="author-info__sayhi" onclick="anzhiyu.changeSayHelloText()"></div><div class="author-info-avatar"><img class="avatar-img" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727072613577_avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/><div class="author-status"><img class="g-status" src="https://bu.dusays.com/2023/08/24/64e6ce9c507bb.png" alt="status"/></div></div><div class="author-info__description"></div><div class="author-info__bottom-group"><a class="author-info__bottom-group-left" href="/"><h1 class="author-info__name">domf</h1><div class="author-info__desc">记录兴趣点</div></a><div class="card-info-social-icons is-center"><a class="social-icon faa-parent animated-hover" href="https://github.com/freedom413" target="_blank" title="Github"><i class="anzhiyufont anzhiyu-icon-github"></i></a><a class="social-icon faa-parent animated-hover" href="https://space.bilibili.com/476414608" target="_blank" title="BiliBili"><i class="anzhiyufont anzhiyu-icon-bilibili"></i></a></div></div></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-bars"></i><span>文章目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">解读单链表-C语言实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E6%A6%82%E5%BF%B5%E5%8F%8A%E7%BB%93%E6%9E%84"><span class="toc-text">链表的概念及结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E5%88%86%E7%B1%BB"><span class="toc-text">链表的分类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">链表的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%97%A0%E5%A4%B4%E5%8D%95%E5%90%91%E9%9D%9E%E5%BE%AA%E7%8E%AF%E9%93%BE%E8%A1%A8-C%E8%AF%AD%E8%A8%80%E5%AE%9E%E7%8E%B0"><span class="toc-text">无头单向非循环链表-C语言实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="toc-text">链表的数据结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%88%9B%E5%BB%BA"><span class="toc-text">链表创建</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%A4%B4%E6%8F%92"><span class="toc-text">链表头插</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%B0%BE%E6%8F%92"><span class="toc-text">链表尾插</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%90%8E%E6%8F%92"><span class="toc-text">链表指定位置后插</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%89%8D%E6%8F%92"><span class="toc-text">链表指定位置前插</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%B0%BE%E5%88%A0"><span class="toc-text">链表尾删</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E5%A4%B4%E5%88%A0"><span class="toc-text">链表头删</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E6%8C%87%E5%AE%9A%E4%BD%8D%E7%BD%AE%E5%88%A0%E9%99%A4"><span class="toc-text">链表指定位置删除</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E9%80%9A%E8%BF%87%E6%95%B0%E6%8D%AE%E6%9F%A5%E6%89%BE%E8%8A%82%E7%82%B9"><span class="toc-text">链表通过数据查找节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E9%94%80%E6%AF%81"><span class="toc-text">链表销毁</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%93%BE%E8%A1%A8%E9%81%8D%E5%8E%86%E6%89%93%E5%8D%B0"><span class="toc-text">链表遍历打印</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">链表测试</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-text">源码获取</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="anzhiyufont anzhiyu-icon-history"></i><span>最近发布</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2024/09/28/LinkList/" title="理解单链表"><img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727516259834_image.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="理解单链表"/></a><div class="content"><a class="title" href="/2024/09/28/LinkList/" title="理解单链表">理解单链表</a><time datetime="2024-09-27T16:00:00.000Z" title="发表于 2024-09-28 00:00:00">2024-09-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/25/freertos-4/" title="freertos信号量"><img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727084678282_image.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="freertos信号量"/></a><div class="content"><a class="title" href="/2024/09/25/freertos-4/" title="freertos信号量">freertos信号量</a><time datetime="2024-09-25T08:00:00.000Z" title="发表于 2024-09-25 16:00:00">2024-09-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/23/freertos-3/" title="freertos队列"><img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727084678282_image.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="freertos队列"/></a><div class="content"><a class="title" href="/2024/09/23/freertos-3/" title="freertos队列">freertos队列</a><time datetime="2024-09-23T08:00:00.000Z" title="发表于 2024-09-23 16:00:00">2024-09-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/23/freertos-2/" title="freertos任务管理"><img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727084678282_image.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="freertos任务管理"/></a><div class="content"><a class="title" href="/2024/09/23/freertos-2/" title="freertos任务管理">freertos任务管理</a><time datetime="2024-09-22T16:00:00.000Z" title="发表于 2024-09-23 00:00:00">2024-09-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2024/09/22/freertos-1/" title="freertos移植"><img src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727084678282_image.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="freertos移植"/></a><div class="content"><a class="title" href="/2024/09/22/freertos-1/" title="freertos移植">freertos移植</a><time datetime="2024-09-22T02:01:00.000Z" title="发表于 2024-09-22 10:01:00">2024-09-22</time></div></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 By domf</div></div></footer></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="sidebar-site-data site-data is-center"><a href="/archives/" title="archive"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/" title="tag"><div class="headline">标签</div><div class="length-num">14</div></a><a href="/categories/" title="category"><div class="headline">分类</div><div class="length-num">3</div></a></div><span class="sidebar-menu-item-title">功能</span><div class="sidebar-menu-item"><a class="darkmode_switchbutton menu-child" href="javascript:void(0);" title="显示模式"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span>显示模式</span></a></div><div class="back-menu-list-groups"><div class="back-menu-list-group"><div class="back-menu-list-title">网页</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://freedom413.github.io" title="我的博客"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147838708_博客.png" alt="我的博客"/><span class="back-menu-item-text">我的博客</span></a></div></div><div class="back-menu-list-group"><div class="back-menu-list-title">电影</div><div class="back-menu-list"><a class="back-menu-item" target="_blank" rel="noopener" href="https://ddys.mov/" title="低端影视"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147415419_列表导航_影视.png" alt="低端影视"/><span class="back-menu-item-text">低端影视</span></a><a class="back-menu-item" target="_blank" rel="noopener" href="https://www.novipnoad.net/" title="NO影视"><img class="back-menu-item-icon" src="https://c0cebdd1.cloudflare-imgbed-24v.pages.dev/file/1727147417333_视频，影视.png" alt="NO影视"/><span class="back-menu-item-text">NO影视</span></a></div></div></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 文章</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/archives/"><i class="anzhiyufont anzhiyu-icon-box-archive faa-tada" style="font-size: 0.9em;"></i><span> 隧道</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/categories/"><i class="anzhiyufont anzhiyu-icon-shapes faa-tada" style="font-size: 0.9em;"></i><span> 分类</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags faa-tada" style="font-size: 0.9em;"></i><span> 标签</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 我的</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/music/"><i class="anzhiyufont anzhiyu-icon-music faa-tada" style="font-size: 0.9em;"></i><span> 音乐馆</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/album/"><i class="anzhiyufont anzhiyu-icon-images faa-tada" style="font-size: 0.9em;"></i><span> 相册集</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="javascript:void(0);"><span> 关于</span></a><ul class="menus_item_child"><li><a class="site-page child faa-parent animated-hover" href="/about/"><i class="anzhiyufont anzhiyu-icon-paper-plane faa-tada" style="font-size: 0.9em;"></i><span> 关于本人</span></a></li><li><a class="site-page child faa-parent animated-hover" href="javascript:toRandomPost()"><i class="anzhiyufont anzhiyu-icon-shoe-prints1 faa-tada" style="font-size: 0.9em;"></i><span> 随便逛逛</span></a></li><li><a class="site-page child faa-parent animated-hover" href="/equipment/"><i class="anzhiyufont anzhiyu-icon-dice-d20 faa-tada" style="font-size: 0.9em;"></i><span> 我的装备</span></a></li></ul></div></div><span class="sidebar-menu-item-title">标签</span><div class="card-tags"><div class="item-headline"></div><div class="card-tag-cloud"><a href="/tags/DIY/" style="font-size: 0.88rem;">DIY<sup>1</sup></a><a href="/tags/FIFO/" style="font-size: 0.88rem;">FIFO<sup>1</sup></a><a href="/tags/STM32/" style="font-size: 0.88rem;">STM32<sup>1</sup></a><a href="/tags/esp8266/" style="font-size: 0.88rem;">esp8266<sup>1</sup></a><a href="/tags/freertos/" style="font-size: 0.88rem;">freertos<sup>4</sup></a><a href="/tags/list/" style="font-size: 0.88rem;">list<sup>1</sup></a><a href="/tags/modbus/" style="font-size: 0.88rem;">modbus<sup>1</sup></a><a href="/tags/stm32/" style="font-size: 0.88rem;">stm32<sup>4</sup></a><a href="/tags/wifi%E6%9C%8D%E5%8A%A1%E5%99%A8/" style="font-size: 0.88rem;">wifi服务器<sup>1</sup></a><a href="/tags/%E5%8D%95%E9%93%BE%E8%A1%A8/" style="font-size: 0.88rem;">单链表<sup>1</sup></a><a href="/tags/%E5%B7%A5%E4%B8%9A%E6%80%BB%E7%BA%BF/" style="font-size: 0.88rem;">工业总线<sup>2</sup></a><a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" style="font-size: 0.88rem;">数据结构<sup>2</sup></a><a href="/tags/%E6%9C%BA%E5%99%A8%E4%BA%BA/" style="font-size: 0.88rem;">机器人<sup>1</sup></a><a href="/tags/%E7%8E%AF%E5%BD%A2%E9%98%9F%E5%88%97/" style="font-size: 0.88rem;">环形队列<sup>1</sup></a></div></div><hr/></div></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="anzhiyufont anzhiyu-icon-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="anzhiyufont anzhiyu-icon-arrows-left-right"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="anzhiyufont anzhiyu-icon-gear"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="anzhiyufont anzhiyu-icon-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></button></div></div><div id="nav-music"><a id="nav-music-hoverTips" onclick="anzhiyu.musicToggle()" accesskey="m">播放音乐</a><div id="console-music-bg"></div><meting-js id="8152976493" server="netease" type="playlist" mutex="true" preload="none" theme="var(--anzhiyu-main)" data-lrctype="0" order="random" volume="0.7"></meting-js></div><div id="rightMenu"><div class="rightMenu-group rightMenu-small"><div class="rightMenu-item" id="menu-backward"><i class="anzhiyufont anzhiyu-icon-arrow-left"></i></div><div class="rightMenu-item" id="menu-forward"><i class="anzhiyufont anzhiyu-icon-arrow-right"></i></div><div class="rightMenu-item" id="menu-refresh"><i class="anzhiyufont anzhiyu-icon-arrow-rotate-right" style="font-size: 1rem;"></i></div><div class="rightMenu-item" id="menu-top"><i class="anzhiyufont anzhiyu-icon-arrow-up"></i></div></div><div class="rightMenu-group rightMenu-line rightMenuPlugin"><div class="rightMenu-item" id="menu-copytext"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制选中文本</span></div><div class="rightMenu-item" id="menu-pastetext"><i class="anzhiyufont anzhiyu-icon-paste"></i><span>粘贴文本</span></div><a class="rightMenu-item" id="menu-commenttext"><i class="anzhiyufont anzhiyu-icon-comment-medical"></i><span>引用到评论</span></a><div class="rightMenu-item" id="menu-newwindow"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开</span></div><div class="rightMenu-item" id="menu-copylink"><i class="anzhiyufont anzhiyu-icon-link"></i><span>复制链接地址</span></div><div class="rightMenu-item" id="menu-copyimg"><i class="anzhiyufont anzhiyu-icon-images"></i><span>复制此图片</span></div><div class="rightMenu-item" id="menu-downloadimg"><i class="anzhiyufont anzhiyu-icon-download"></i><span>下载此图片</span></div><div class="rightMenu-item" id="menu-newwindowimg"><i class="anzhiyufont anzhiyu-icon-window-restore"></i><span>新窗口打开图片</span></div><div class="rightMenu-item" id="menu-search"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>站内搜索</span></div><div class="rightMenu-item" id="menu-searchBaidu"><i class="anzhiyufont anzhiyu-icon-magnifying-glass"></i><span>百度搜索</span></div><div class="rightMenu-item" id="menu-music-toggle"><i class="anzhiyufont anzhiyu-icon-play"></i><span>播放音乐</span></div><div class="rightMenu-item" id="menu-music-back"><i class="anzhiyufont anzhiyu-icon-backward"></i><span>切换到上一首</span></div><div class="rightMenu-item" id="menu-music-forward"><i class="anzhiyufont anzhiyu-icon-forward"></i><span>切换到下一首</span></div><div class="rightMenu-item" id="menu-music-playlist" onclick="window.open(&quot;https://y.qq.com/n/ryqq/playlist/8802438608&quot;, &quot;_blank&quot;);" style="display: none;"><i class="anzhiyufont anzhiyu-icon-radio"></i><span>查看所有歌曲</span></div><div class="rightMenu-item" id="menu-music-copyMusicName"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制歌名</span></div></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item menu-link" id="menu-randomPost"><i class="anzhiyufont anzhiyu-icon-shuffle"></i><span>随便逛逛</span></a><a class="rightMenu-item menu-link" href="/categories/"><i class="anzhiyufont anzhiyu-icon-cube"></i><span>博客分类</span></a><a class="rightMenu-item menu-link" href="/tags/"><i class="anzhiyufont anzhiyu-icon-tags"></i><span>文章标签</span></a></div><div class="rightMenu-group rightMenu-line rightMenuOther"><a class="rightMenu-item" id="menu-copy" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-copy"></i><span>复制地址</span></a><a class="rightMenu-item" id="menu-commentBarrage" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-message"></i><span class="menu-commentBarrage-text">关闭热评</span></a><a class="rightMenu-item" id="menu-darkmode" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-circle-half-stroke"></i><span class="menu-darkmode-text">深色模式</span></a><a class="rightMenu-item" id="menu-translate" href="javascript:void(0);"><i class="anzhiyufont anzhiyu-icon-language"></i><span>轉為繁體</span></a></div></div><div id="rightmenu-mask"></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.cbd.int/@fancyapps/ui@5.0.28/dist/fancybox/fancybox.umd.js"></script><script src="https://cdn.cbd.int/instant.page@5.2.0/instantpage.js" type="module"></script><script src="https://cdn.cbd.int/node-snackbar@0.1.16/dist/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.cbd.int/pangu@4.0.7/dist/browser/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (false){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><canvas id="universe"></canvas><script async src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.0/dark/dark.js"></script><script async src="/anzhiyu/random.js"></script><div class="js-pjax"><input type="hidden" name="page-type" id="page-type" value="post"></div><script async data-pjax src="https://npm.elemecdn.com/anzhiyu-theme-static@1.0.1/bubble/bubble.js"></script><script>var visitorMail = "";
+</script><script async data-pjax src="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/waterfall/waterfall.js"></script><script src="https://lf3-cdn-tos.bytecdntp.com/cdn/expire-1-M/qrcodejs/1.0.0/qrcode.min.js"></script><script src="/js/anzhiyu/right_click_menu.js"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.1.9/icon/ali_iconfont_css.css"><script id="click-heart" src="https://cdn.cbd.int/butterfly-extsrc@1.1.3/dist/click-heart.min.js" async="async" mobile="false"></script><link rel="stylesheet" href="https://cdn.cbd.int/anzhiyu-theme-static@1.0.0/aplayer/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.cbd.int/anzhiyu-blog-static@1.0.1/js/APlayer.min.js"></script><script src="https://cdn.cbd.int/hexo-anzhiyu-music@1.0.1/assets/js/Meting2.min.js"></script><script src="https://cdn.cbd.int/pjax@0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+  // removeEventListener scroll 
+  anzhiyu.removeGlobalFnEvent('pjax')
+  anzhiyu.removeGlobalFnEvent('themeChange')
+
+  document.getElementById('rightside').classList.remove('rightside-show')
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', e => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script charset="UTF-8" src="https://cdn.cbd.int/anzhiyu-theme-static@1.1.5/accesskey/accesskey.js"></script></div><div id="popup-window"><div class="popup-window-title">通知</div><div class="popup-window-divider"></div><div class="popup-window-content"><div class="popup-tip">你好呀</div><div class="popup-link"><i class="anzhiyufont anzhiyu-icon-arrow-circle-right"></i></div></div></div></body></html>
